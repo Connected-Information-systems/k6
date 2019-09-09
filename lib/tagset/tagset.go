@@ -11,6 +11,7 @@ import (
 //go:generate enumer -type=TagSet -transform=snake -output tagset_gen.go
 type TagSet uint32
 
+//nolint: golint
 const (
 	// Default system tags includes all of the system tags emitted with metrics by default.
 	Proto TagSet = 1 << iota
@@ -25,16 +26,19 @@ const (
 	ErrorCode
 	TLSVersion
 
+	// System tags not enabled by default.
 	Iter
 	VU
 	OCSPStatus
 	IP
 )
 
+// Set adds a tag to tag set.
 func (ts *TagSet) Set(tag TagSet) {
 	*ts |= tag
 }
 
+// Has checks a tag included in tag set.
 func (ts *TagSet) Has(tag TagSet) bool {
 	return *ts&tag != 0
 }
