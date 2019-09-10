@@ -7,7 +7,7 @@ import (
 )
 
 // TagSet is a bitmask that is used to keep track
-// which system tags should be included with with metrics.
+// which system tags should be included with which metrics.
 //go:generate enumer -type=TagSet -transform=snake -output tagset_gen.go
 type TagSet uint32
 
@@ -33,8 +33,8 @@ const (
 	IP
 )
 
-// Set adds a tag to tag set.
-func (ts *TagSet) Set(tag TagSet) {
+// Add adds a tag to tag set.
+func (ts *TagSet) Add(tag TagSet) {
 	*ts |= tag
 }
 
@@ -48,7 +48,7 @@ func FromList(tags []string) *TagSet {
 	ts := TagSet(0)
 	for _, tag := range tags {
 		if v, err := TagSetString(tag); err == nil {
-			ts.Set(v)
+			ts.Add(v)
 		}
 	}
 	return &ts
@@ -65,7 +65,7 @@ func (ts *TagSet) MarshalJSON() ([]byte, error) {
 	return json.Marshal(tags)
 }
 
-// UnmarshalJSON converts the tag list back to a the expected set (string to bool map).
+// UnmarshalJSON converts the tag list back to expected tag set.
 func (ts *TagSet) UnmarshalJSON(data []byte) error {
 	var tags []string
 	if err := json.Unmarshal(data, &tags); err != nil {
@@ -87,7 +87,7 @@ func (ts *TagSet) UnmarshalText(data []byte) error {
 			continue
 		}
 		if v, err := TagSetString(key); err == nil {
-			ts.Set(v)
+			ts.Add(v)
 		}
 	}
 	return nil
