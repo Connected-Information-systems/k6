@@ -1238,6 +1238,7 @@ func TestSystemTags(t *testing.T) {
 	state.Options.Apply(lib.Options{TLSVersion: &lib.TLSVersions{Max: lib.TLSVersion13}})
 
 	for num, tc := range testedSystemTags {
+		tc := tc
 		t.Run(fmt.Sprintf("TC %d with only %s", num, tc.tag), func(t *testing.T) {
 			state.Options.SystemTags = stats.ToSystemTagSet([]string{tc.tag})
 

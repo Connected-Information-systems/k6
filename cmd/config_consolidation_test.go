@@ -400,10 +400,16 @@ func getConfigConsolidationTestCases() []configConsolidationTestCase {
 			assert.Equal(t, stats.SystemTagSet(0), *c.Options.SystemTags)
 		}},
 		{
-			opts{runner: &lib.Options{SystemTags: stats.ToSystemTagSet([]string{stats.TagSubProto.String(), stats.TagURL.String()})}},
+			opts{runner: &lib.Options{
+				SystemTags: stats.ToSystemTagSet([]string{stats.TagSubProto.String(), stats.TagURL.String()})},
+			},
 			exp{},
 			func(t *testing.T, c Config) {
-				assert.Equal(t, *stats.ToSystemTagSet([]string{stats.TagSubProto.String(), stats.TagURL.String()}), *c.Options.SystemTags)
+				assert.Equal(
+					t,
+					*stats.ToSystemTagSet([]string{stats.TagSubProto.String(), stats.TagURL.String()}),
+					*c.Options.SystemTags,
+				)
 			},
 		},
 		//TODO: test for differences between flagsets

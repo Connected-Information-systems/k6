@@ -422,6 +422,7 @@ func TestSystemTags(t *testing.T) {
 	rt.Set("ws", common.Bind(rt, New(), &ctx))
 
 	for _, expectedTag := range testedSystemTags {
+		expectedTag := expectedTag
 		t.Run("only "+expectedTag, func(t *testing.T) {
 			state.Options.SystemTags = stats.ToSystemTagSet([]string{expectedTag})
 			_, err := common.RunString(rt, sr(`
